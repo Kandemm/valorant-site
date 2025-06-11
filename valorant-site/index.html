@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valorant Öğretici | Giriş</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background-color: black;
+      color: white;
+    }
+
+    #intro-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 9999;
+    }
+
+    #intro-video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background-color: black;
+    }
+
+    #sound-btn, #skip-btn {
+      position: absolute;
+      bottom: 30px;
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid white;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    #sound-btn { left: 30px; }
+    #skip-btn { right: 30px; }
+
+    .main-content {
+      display: none;
+      animation: fadeInMain 1s ease forwards;
+      padding: 50px;
+      text-align: center;
+    }
+
+    @keyframes fadeInMain {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .nav-btn {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 24px;
+      background-color: #e63946;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .nav-btn:hover {
+      background-color: #a4161a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🎬 Giriş Videosu -->
+  <div id="intro-container">
+    <video id="intro-video" autoplay muted playsinline preload="auto">
+      <source src="video/intro.mp4" type="video/mp4">
+      Tarayıcınız video etiketini desteklemiyor.
+    </video>
+    <button id="sound-btn">🔊 Sesi Aç</button>
+    <button id="skip-btn">Geç</button>
+  </div>
+
+  <!-- 🌐 Ana Sayfa İçeriği -->
+  <div class="main-content">
+    <h1>VALORANT ÖĞRETİCİ'YE HOŞ GELDİN</h1>
+    <p style="margin-top: 20px;">Başlamak için bir bölüm seç:</p>
+    <nav style="margin-top: 30px;">
+      <a href="ajanlar.html" class="nav-btn">Ajanlar</a>
+      <a href="haritalar.html" class="nav-btn">Haritalar</a>
+      <a href="bind.html" class="nav-btn">Bind Haritası</a>
+      <a href="kombinasyonlar.html" class="nav-btn">Kombinasyonlar</a>
+    </nav>
+  </div>
+
+  <script>
+    const video = document.getElementById("intro-video");
+    const container = document.getElementById("intro-container");
+    const content = document.querySelector(".main-content");
+    const skipBtn = document.getElementById("skip-btn");
+    const soundBtn = document.getElementById("sound-btn");
+
+    // Video bitince ana içeriği göster
+    video.addEventListener("ended", () => {
+      container.style.display = "none";
+      content.style.display = "block";
+    });
+
+    // "Geç" butonuna basıldığında
+    skipBtn.addEventListener("click", () => {
+      video.pause();
+      container.style.display = "none";
+      content.style.display = "block";
+    });
+
+    // "Sesi Aç" butonuna basıldığında
+    soundBtn.addEventListener("click", () => {
+      video.muted = false;
+      video.volume = 1.0;
+      video.play();
+    });
+  </script>
+</body>
+</html>
