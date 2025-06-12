@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Icebox Taktik Haritası</title>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      background-color: #0a0a0a;
+      font-family: 'Orbitron', sans-serif;
+      color: white;
+    }
+
+    /* === NAVBAR === */
+    .navbar {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background-color: #0a0a0a;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-bottom: 1px solid #e63946;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e63946;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .nav-links li a:hover {
+      color: #e63946;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        width: 100%;
+        padding-top: 10px;
+      }
+    }
+
+    /* === CONTENT === */
+    h1 {
+      margin: 20px;
+      color: #e63946;
+      text-align: center;
+    }
+
+    .toolbar {
+      margin: 20px auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #e63946;
+      color: white;
+      border: none;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #a4161a;
+    }
+
+    #canvas-container {
+      max-width: 100%;
+      overflow-x: auto;
+      border: 2px solid #e63946;
+      margin-bottom: 50px;
+    }
+
+    canvas {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">VALORANT</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Anasayfa</a></li>
+        <li><a href="ajanlar.html">Ajanlar</a></li>
+        <li><a href="haritalar.html">Haritalar</a></li>
+        <li><a href="kombinasyonlar.html">Kombolar</a></li>
+        <li><a href="icebox-taktik.html">Taktik Haritalar</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- BAŞLIK -->
+  <h1>Icebox Taktik Haritası</h1>
+
+  <!-- ARAÇ ÇUBUĞU -->
+  <div class="toolbar">
+    <button onclick="setMode('draw')">✏️ Çizim Modu</button>
+    <button onclick="setMode('move')">🧍 Taşıma Modu</button>
+    <button onclick="clearCanvas()">🧹 Temizle</button>
+    <button onclick="addAgent('jett')">🌀 Jett</button>
+    <button onclick="addAgent('sova')">🎯 Sova</button>
+    <button onclick="addAgent('sage')">❄️ Sage</button>
+    <button onclick="addAgent('cypher')">🕵️ Cypher</button>
+    <button onclick="addAgent('omen')">🌑 Omen</button>
+  </div>
+
+  <!-- HARİTA -->
+  <div id="canvas-container">
+    <canvas id="harita-canvas" width="1280" height="720"></canvas>
+  </div>
+
+  <!-- fabric.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+  <script>
+    const canvas = new fabric.Canvas('harita-canvas');
+    let currentMode = 'draw';
+
+    const haritaURL = 'img/haritalar/icebox-taktik.png';
+
+    // Harita yükleniyor
+    fabric.Image.fromURL(haritaURL, function(img) {
+      img.scaleToWidth(canvas.getWidth());
+      img.scaleToHeight(canvas.getHeight());
+      img.selectable = false;
+
+      canvas.setBackgroundImage(img, () => {
+        canvas.renderAll();
+
+        // Varsayılan olarak çizim modu açık
+        canvas.isDrawingMode = true;
+        canvas.freeDrawingBrush.width = 3;
+        canvas.freeDrawingBrush.color = "#e63946";
+      });
+    });
+
+    // Mod değiştirme
+    function setMode(mode) {
+      currentMode = mode;
+
+      if (mode === 'draw') {
+        canvas.isDrawingMode = true;
+        canvas.selection = false;
+        canvas.forEachObject(obj => obj.selectable = false);
+      } else if (mode === 'move') {
+        canvas.isDrawingMode = false;
+        canvas.selection = true;
+        canvas.forEachObject(obj => {
+          obj.selectable = obj.agentIcon === true;
+        });
+      }
+
+      canvas.discardActiveObject();
+      canvas.renderAll();
+    }
+
+    // Temizle
+    function clearCanvas() {
+      canvas.getObjects().forEach(obj => {
+        if (!obj.backgroundImage) canvas.remove(obj);
+      });
+      canvas.renderAll();
+    }
+
+    // Ajan Ekle
+    function addAgent(agentName) {
+      let imgPath = '';
+
+      if (agentName === 'jett') imgPath = 'img/ajanlar/jett-icon.png';
+      else if (agentName === 'sova') imgPath = 'img/ajanlar/sova-icon.png';
+      else if (agentName === 'sage') imgPath = 'img/ajanlar/sage-icon.png';
+      else if (agentName === 'cypher') imgPath = 'img/ajanlar/cypher-icon.png';
+      else if (agentName === 'omen') imgPath = 'img/ajanlar/omen-icon.png';
+      else return;
+
+    fabric.Image.fromURL(imgPath, function(img) {
+    img.set({
+      left: 100,
+      top: 100,
+      scaleX: 0.30,
+      scaleY: 0.30,
+      hasControls: false,
+      hasBorders: false,
+      selectable: currentMode === 'move',
+      evented: true,
+      stroke: 'white',
+      strokeWidth: 4,
+      shadow: {
+        color: 'black',
+        blur: 5,
+        offsetX: 2,
+        offsetY: 2
+      }
+    });
+
+    img.agentIcon = true;
+
+    canvas.add(img);
+    canvas.bringToFront(img);
+    canvas.setActiveObject(img);
+    canvas.renderAll();
+  }, { crossOrigin: 'anonymous' });
+}
+img.set({
+  stroke: 'white',
+  strokeWidth: 4,
+  shadow: {
+    color: 'black',
+    blur: 5,
+    offsetX: 2,
+    offsetY: 2
+  }
+});
+  </script>
+
+</body>
+</html>
