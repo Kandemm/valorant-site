@@ -1,48 +1,199 @@
 <!DOCTYPE html>
-<html lang="tr">
+<htmk lang="tr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Valorant Ajanları</title>
-    <link rel="stylesheet" href="css/style.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorant Öğretici | Ajanlar </title>
+
+    <!-- Google Fonts Orbitron-->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #0a0a0a;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+        }
+
+        /* Navbar */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background-color: #0a0a0a;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid #e63946;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e63946;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #e63946;
+        }
+
+        /* Ajanlar */
+
+        .agent-section {
+            padding: 50px;
+            text-align: center;
+        }
+
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .agent-card {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 20px;
+        }
+
+        .agent-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(230, 57, 70, 0.4);
+        }
+
+        .agent-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+
+        .agent-card h3 {
+            margin-top: 15px;
+            color: #ffffff;
+        }
+
+        .agent-card p {
+            color: #cfcfcf;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .agent-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #e63946;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .agent-btn:hover {
+            background-color: #a4161a;
+        }
+
+        /* Responsive navbar */
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+                padding-top: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
+
+    <!--🧭 Navbar -->
     <header>
-  <nav class="navbar">
-    <div class="logo">VALORANT</div>
-    <ul class="nav-links">
-      <li><a href="index.html">Anasayfa</a></li>
-      <li><a href="ajanlar.html">Ajanlar</a></li>
-      <li><a href="haritalar.html">Haritalar</a></li>
-      <li><a href="kombinasyonlar.html">Kombolar</a></li>
-    </ul>
-  </nav>
-</header>
-    <header>
-        <h1>Valorant Ajan Rehberi</h1>
+        <nav class="navbar">
+            <div class="logo">VALORANT</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Anasayfa</a></li>
+                <li><a href="ajanlar.html">Ajanlar</a></li>
+                <li><a href="haritalar.html">Haritalar</a></li>
+                <li><a href="kombinasyonlar.html">Kombolar</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <main>
-        <div class="search-box">
-            <input type="text" id="agentSearch" placeholder="Ajan ara...">
-        </div>
-        <div class="filter-bar">
-            <button onclick="filtrele('Hepsi')"></button>
-            <button onclick="filtrele('Duellocu')"></button>
-            <button onclick="filtrele('Öncü')"></button>
-            <button onclick="filtrele('Gözcü')"></button>
-            <button onclick="filtrele('Kontrol Uzmanı')"></button>
-        </div>
-        
-        <section class="agent-list" id="agentContainer">
-        </section>
-    </main>
+    <!--🧍 Ajan Kartları -->
 
-    <footer>
-        <p>&copy; 2025 Valorant Öğretici. Tüm Hakları saklıdır.</p>
-    </footer>
+    <section class="agent-section">
+        <h2>AJANLAR</h2>
+        <div class="agent-grid">
 
-    <script src="js/app.js"></script>
+            <!-- Örnek Ajan Kartları -->
+             <div class="agent-card">
+                <img src="img/ajanlar/jett.png" alt="Jett">
+                <h3>Jett</h3>
+                <p>Hızlı ve çevik bir ajan. Rüzgarın gücünü kullanarak düşmanlarını alt eder.</p>
+                <a href="jett.html" class="agent-btn">Detay</a>
+             </div>
+
+             <div class="agent-card">
+                <img src="img/ajanlar/sova.png" alt="Sova">
+                <h3>Sova</h3>
+                <p>Keşif uzmanı. Ok ve drone kullanarak düşmanlarını bulur ve avlar.</p>
+                <a href="sova.html" class="agent-btn">Detay</a>
+             </div>
+
+             <div class="agent-card">
+                <img src="img/ajanlar/sage.png" alt="Sage">
+                <h3>Sage</h3>
+                <p>Destekçi ajan. Takım arkadaşlarını iyileştirir ve diriltir.</p>
+                <a href="sage.html" class="agent-btn">Detay</a>
+             </div>
+
+             <div class="agent-card">
+                <img src="img/ajanlar/cypher.png" alt="Cypher">
+                <h3>Cypher</h3>
+                <p>Gizlilik uzmanı. Düşmanlarının hareketlerini takip eder ve tuzaklar kurar.</p>
+                <a href="cypher.html" class="agent-btn">Detay</a>
+             </div>
+
+             <div class="agent-card">
+                <img src="img/ajanlar/omen.png" alt="Omen">
+                <h3>Omen</h3>
+                <p>Gölge ajanı. Sis ve teleport yetenekleri ile düşmanlarını şaşırtır.</p>
+                <a href="omen.html" class="agent-btn">Detay</a>
+             </div>
+
+             <!-- Ajan eklemek için burayı kullanabilirsin-->
+        </div>
+    </section>
 </body>
-</html>

@@ -3,32 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Valorant Öğretici | Giriş</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <title>Valorant Öğretici | Anasayfa</title>
+
+  <!-- Font: Orbitron -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Orbitron', sans-serif;
-      background-color: black;
+      background-color: #0a0a0a;
       color: white;
     }
 
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background-color: #0a0a0a;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-bottom: 1px solid #e63946;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e63946;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .nav-links li a:hover {
+      color: #e63946;
+    }
+
+    /* Video Açılış */
     #intro-container {
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      overflow: hidden;
+      background-color: black;
       z-index: 9999;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     #intro-video {
       width: 100%;
       height: 100%;
       object-fit: contain;
-      background-color: black;
     }
 
     #sound-btn, #skip-btn {
@@ -46,6 +93,7 @@
     #sound-btn { left: 30px; }
     #skip-btn { right: 30px; }
 
+    /* Ana içerik */
     .main-content {
       display: none;
       animation: fadeInMain 1s ease forwards;
@@ -73,21 +121,26 @@
     .nav-btn:hover {
       background-color: #a4161a;
     }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        padding-top: 10px;
+      }
+    }
   </style>
 </head>
 <body>
-  <header>
-  <nav class="navbar">
-    <div class="logo">VALORANT</div>
-    <ul class="nav-links">
-      <li><a href="index.html">Anasayfa</a></li>
-      <li><a href="ajanlar.html">Ajanlar</a></li>
-      <li><a href="haritalar.html">Haritalar</a></li>
-      <li><a href="kombinasyonlar.html">Kombolar</a></li>
-    </ul>
-  </nav>
-</header>
-  <!-- 🎬 Giriş Videosu -->
+
+  <!-- 🎬 Açılış Videosu -->
   <div id="intro-container">
     <video id="intro-video" autoplay muted playsinline preload="auto">
       <source src="video/intro.mp4" type="video/mp4">
@@ -97,12 +150,31 @@
     <button id="skip-btn">Geç</button>
   </div>
 
-  <!-- 🌐 Ana Sayfa İçeriği -->
+  <!-- 🧭 Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">VALORANT</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Anasayfa</a></li>
+        <li><a href="ajanlar.html">Ajanlar</a></li>
+        <li><a href="haritalar.html">Haritalar</a></li>
+        <li><a href="kombinasyonlar.html">Kombolar</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- 🌐 Ana İçerik -->
   <div class="main-content">
-    <h1>VALORANT ÖĞRETİCİ'YE HOŞ GELDİN</h1>
-    <p style="margin-top: 20px;">Başlamak için bir bölüm seç:</p>
+    <h1>VALORANT ÖĞRETİCİ</h1>
+    <p style="margin-top: 10px;">Ajanlar, haritalar ve kombinasyonlar hakkında kapsamlı bir rehber.</p>
+    <div style="margin-top: 30px;">
+      <a href="ajanlar.html" class="nav-btn">Ajanlara Git</a>
+      <a href="haritalar.html" class="nav-btn">Haritalara Göz At</a>
+      <a href="kombinasyonlar.html" class="nav-btn">Komboları Keşfet</a>
+    </div>
   </div>
 
+  <!-- 📜 Script -->
   <script>
     const video = document.getElementById("intro-video");
     const container = document.getElementById("intro-container");
@@ -110,25 +182,23 @@
     const skipBtn = document.getElementById("skip-btn");
     const soundBtn = document.getElementById("sound-btn");
 
-    // Video bitince ana içeriği göster
     video.addEventListener("ended", () => {
       container.style.display = "none";
       content.style.display = "block";
     });
 
-    // "Geç" butonuna basıldığında
     skipBtn.addEventListener("click", () => {
       video.pause();
       container.style.display = "none";
       content.style.display = "block";
     });
 
-    // "Sesi Aç" butonuna basıldığında
     soundBtn.addEventListener("click", () => {
       video.muted = false;
       video.volume = 1.0;
-      video.play();
+      video.play().catch(err => console.warn("Ses açılırken hata:", err));
     });
   </script>
+
 </body>
 </html>
