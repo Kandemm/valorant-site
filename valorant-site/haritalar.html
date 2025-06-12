@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bind Haritası</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .map-container {
+      max-width: 900px;
+      margin: 50px auto;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      background-color: #1a1a1a;
+      border: 2px solid #e63946;
+      border-radius: 10px;
+    }
+
+    .map-area:hover {
+      fill: #ff4d4d;
+      cursor: pointer;
+    }
+
+    .tooltip {
+      position: absolute;
+      background-color: #111;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #e63946;
+      display: none;
+      font-size: 14px;
+      pointer-events: none;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bind Haritası – Etkileşimli Rehber</h1>
+  </header>
+
+  <main>
+    <div class="map-container">
+      <!-- Basitleştirilmiş Bind haritası SVG’si -->
+      <svg viewBox="0 0 600 400">
+        <rect id="a-site" class="map-area" x="50" y="50" width="200" height="150" fill="#333"/>
+        <rect id="b-site" class="map-area" x="350" y="200" width="180" height="130" fill="#333"/>
+        <text x="60" y="75" fill="white" font-size="16">A Alanı</text>
+        <text x="360" y="225" fill="white" font-size="16">B Alanı</text>
+      </svg>
+      <div class="tooltip" id="tooltip"></div>
+    </div>
+  </main>
+
+  <script>
+    const tooltip = document.getElementById('tooltip');
+    const areas = document.querySelectorAll('.map-area');
+
+    const bilgiler = {
+      "a-site": "A Alanı: Buraya Sova dart + Brim ult kombosu yapılabilir.",
+      "b-site": "B Alanı: Raze + Fade ile hızlı baskın önerilir."
+    };
+
+    areas.forEach(area => {
+      area.addEventListener('mouseenter', (e) => {
+        const info = bilgiler[area.id];
+        tooltip.innerText = info;
+        tooltip.style.display = "block";
+      });
+
+      area.addEventListener('mousemove', (e) => {
+        tooltip.style.left = (e.pageX + 10) + "px";
+        tooltip.style.top = (e.pageY - 40) + "px";
+      });
+
+      area.addEventListener('mouseleave', () => {
+        tooltip.style.display = "none";
+      });
+    });
+  </script>
+</body>
+</html>
